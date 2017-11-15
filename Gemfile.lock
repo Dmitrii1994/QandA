@@ -114,6 +114,8 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
+    validates_email_format_of (1.6.3)
+      i18n
     web-console (3.5.1)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -133,6 +135,7 @@ DEPENDENCIES
   puma (~> 3.7)
   rails (~> 5.1.4)
   sqlite3
+  validates_email_format_of
   web-console (>= 3.3.0)
 
 BUNDLED WITH

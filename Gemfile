@@ -13,6 +13,7 @@ gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 gem 'jquery-rails'
+gem 'validates_email_format_of'
 
 
 
