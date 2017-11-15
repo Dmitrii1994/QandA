@@ -1,5 +1,0 @@
-class Quesion < ApplicationRecord
-
-
-
-end
