@@ -2,42 +2,69 @@
 
 class UsersController < ApplicationController
 
+  before_action :load_user, except: [:index, :create, :new]
+  before_action :authorize_user, except: [:index, :create, :new, :show]
+
+
   def index
-    @users = [
-      User.new(
-        id: 1,
-        name: 'Polina',
-        username: 'catgirl',
-        avatar_url: 'https://pp.userapi.com/c836222/v836222584/4cd2c/Sh_jwu3s56Y.jpg',
-        ),
-      User.new(
-        id: 2,
-        name: 'Dima',
-        username: 'lkibbalam',
-           avatar_url: 'https://pp.userapi.com/c837625/v837625590/aedc/LMRi6Rh4Vyk.jpg',
-      )
-    ]
+    @users = User.all
   end
 
   def new
+    redirect_to root_url 'You are logind alredy' if current_user.present?
+    @user = User.new
+  end
+
+  def create
+    redirect_to root_url 'You are logind alredy' if current_user.present?
+    @user = User.new(user_params)
+      if @user.save
+        session[:user_id] = @user.id
+        redirect_to user_path(@user), notice: "User successfully created"
+      else
+        render 'new'
+      end
   end
 
   def edit
   end
 
   def show
-    @user = User.new(
-        name:'mr.Green',
-        username: 'lkibbalam',
-        avatar_url: 'https://store.playstation.com/store/api/chihiro/00_09_000/container/UA/ru/999/EP4507-NPEB02124_00-AVVIRTUALB000634/1501370916000/image?_version=00_09_000&platform=chihiro&w=225&h=225&bg_color=000000&opacity=100'
-    )
+    @questions = @user.questions.order(created_at: :desc)
+    @new_question = @user.questions.build
 
-    @questions = [
-        Question.new(text: 'How are you?', created_at: Date.parse('15.11.2017')),
-        Question.new(text: 'Friend, where are you?', created_at: Date.parse('15.11.2017'))
-    ]
+    @questions_count = @questions.count
+    @answers_count = @questions.where.not(answer: nil).count
+    @unanswered_count = @questions_count - @answers_count
+  end
 
-    @new_question = Question.new
+  def update
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: "User successfully update"
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    if @user.destroy
+    redirect_to root_url, notice: "User was successfuly delete"
+    end
+  end
+
+  private
+
+  def authorize_user
+    reject_user unless @user == current_user
+  end
+
+  def load_user
+    @user = User.find params[:id]
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation,
+                                 :name, :username, :avatar_url)
   end
 
 end

@@ -4,7 +4,8 @@
     <meta charset="UTF-8"/>
 
     <title>Questions and Answers</title>
-
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
@@ -14,13 +15,34 @@
   <body>
 
     <div class='header'>
-      <div class="header-logo">
-        <h1  class="header-title"><%= link_to "Questions and Answers", root_path %></h1>
+      <div class="container">
+       <div class="header-logo">
+         <h1  class="header-title"><%= link_to "Questions and Answers", root_path %></h1>
+       </div>
+
+        <div class="header-nav">
+          <% if current_user %>
+              <%= link_to "@#{current_user.username}", user_path(current_user) %>
+              <%= link_to 'Log out', log_out_path, class: 'button button-light button-small' %>
+          <% else %>
+              <%= link_to 'Registration', sign_up_path, class: 'button button-light button-small' %>
+              <%= link_to 'Log in', log_in_path, class: 'button button-light button-small' %>
+          <% end %>
+        </div>
       </div>
     </div>
 
+
     <div class="content">
       <div class="container">
+        <% if flash.any? %>
+            <div class="content-wrapper buffer-both">
+              <% flash.each do |name, message| %>
+                <%= content_tag :div, message, class: "flash-#{name}" %>
+              <% end %>
+            </div>
+        <% end %>
+
         <%= yield %>
       </div>
     </div>

@@ -39,8 +39,11 @@
 
 .user-statistics {
   padding-top: 10px;
-  margin-top: 10px;
-  border-top: 1px solid #D9E6E5;
+  padding-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 0px;
+  border-top: 1px solid #d9e6e5;
+  background: #D9E6E5;
 }
 
 .user-questions {
@@ -68,3 +71,4 @@
     display: none;
   }
 }
+
