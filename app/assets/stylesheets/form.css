@@ -6,6 +6,11 @@
   margin-bottom: 10px;
 }
 
+.form-field-color {
+  width: 25%;
+  height: 60px;
+}
+
 .form-label {
   display: block;
   margin-bottom: 5px;

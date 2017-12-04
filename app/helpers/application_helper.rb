@@ -7,6 +7,11 @@ module ApplicationHelper
     end
   end
 
+  def user_page_color(user)
+    user.user_page_color.present?
+    user.user_page_color
+  end
+
   def fa_icon(icon_class)
     content_tag 'span','', class: "fa fa-#{icon_class}"
   end
